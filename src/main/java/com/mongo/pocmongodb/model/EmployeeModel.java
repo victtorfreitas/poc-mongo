@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
@@ -17,5 +18,7 @@ public class EmployeeModel {
   private String name;
   private Integer age;
   private BigDecimal salary;
+
+  @DBRef
   private EmployeeModel boss;
 }

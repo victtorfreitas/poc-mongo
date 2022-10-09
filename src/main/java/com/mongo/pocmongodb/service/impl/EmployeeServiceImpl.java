@@ -5,6 +5,7 @@ import com.mongo.pocmongodb.model.EmployeeModel;
 import com.mongo.pocmongodb.repository.EmployeeRepository;
 import com.mongo.pocmongodb.service.EmployeeService;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
   @Override
   public EmployeeModel create(EmployeeModel employeeModel) {
+    EmployeeModel boss = getBoss(employeeModel.getBoss()).orElseThrow();
+    employeeModel.setBoss(boss);
     return employeeRepository.save(employeeModel);
+  }
+
+  private Optional<EmployeeModel> getBoss(EmployeeModel bossModel) {
+    return Optional.ofNullable(bossModel)
+        .flatMap(boss -> employeeRepository.findById(boss.getCode()));
   }
 }
