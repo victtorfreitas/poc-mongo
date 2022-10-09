@@ -1,5 +1,6 @@
 package com.mongo.pocmongodb.config;
 
+import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.MDC;
@@ -12,8 +13,14 @@ public class MdcInterceptor implements HandlerInterceptor {
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
       Object handler) {
-    MDC.put("CORRELATION_ID", request.getHeader("CORRELATION_ID"));
+    String correlation_id = getCorrelationId(request);
+    MDC.put("CORRELATION_ID", correlation_id);
     return true;
+  }
+
+  private static String getCorrelationId(HttpServletRequest request) {
+    String correlationIdHeader = request.getHeader("CORRELATION_ID");
+    return correlationIdHeader != null ? correlationIdHeader : UUID.randomUUID().toString();
   }
 
   @Override
