@@ -1,0 +1,9 @@
+spring:
+  data:
+    mongodb:
+      username: root
+      password: MongoDB2019!
+      port: 27017
+      host: localhost
+      database: payroll
+      authentication-database: admin
